@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMIS AEROSPACE | Consultoria em Sistemas Complexos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-deep: #0a0e14;
+            --bg-surface: #111820;
+            --bg-card: #161e28;
+            --border-subtle: #1e2a36;
+            --accent-cyan: #00d4ff;
+            --accent-glow: rgba(0, 212, 255, 0.15);
+            --text-primary: #f0f4f8;
+            --text-secondary: #8899aa;
+            --text-muted: #556677;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navegação */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 14, 20, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-brand .mark {
+            width: 32px;
+            height: 32px;
+            border: 2px solid var(--accent-cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+        }
+
+        .nav-coords {
+            font-family: 'Courier New', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-align: right;
+            line-height: 1.4;
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 48px 80px;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.25;
+            filter: brightness(0.4) saturate(0.6);
+        }
+
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(10,14,20,0.6) 0%, rgba(10,14,20,0.95) 70%, var(--bg-deep) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 28px;
+        }
+
+        .hero-title span {
+            color: var(--accent-cyan);
+        }
+
+        .hero-sub {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin: 0 auto 40px;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 36px;
+            background: var(--accent-cyan);
+            color: var(--bg-deep);
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .hero-cta:hover {
+            background: #33e0ff;
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        /* Seção genérica */
+        .section {
+            padding: 100px 48px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            color: var(--text-secondary);
+            max-width: 640px;
+            font-size: 0.95rem;
+            font-weight: 300;
+        }
+
+        /* Áreas de atuação */
+        .areas-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .area-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.35s ease;
+            position: relative;
+        }
+
+        .area-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 212, 255, 0.08);
+        }
+
+        .area-card-img {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .area-card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            filter: brightness(0.7) saturate(0.8);
+        }
+
+        .area-card:hover .area-card-img img {
+            transform: scale(1.05);
+        }
+
+        .area-card-img::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, var(--bg-card) 100%);
+        }
+
+        .area-card-body {
+            padding: 24px 28px 28px;
+            position: relative;
+            margin-top: -30px;
+            z-index: 2;
+        }
+
+        .area-card-body h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.2px;
+        }
+
+        .area-card-body p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        .area-tag {
+            display: inline-block;
+            font-size: 0.6rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 4px 10px;
+            border-radius: 3px;
+            margin-top: 16px;
+        }
+
+        /* Projetos */
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            background: var(--border-subtle);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .project-row {
+            display: grid;
+            grid-template-columns: 60px 1fr 200px 140px;
+            align-items: center;
+            gap: 24px;
+            padding: 24px 32px;
+            background: var(--bg-card);
+            transition: background 0.25s ease;
+        }
+
+        .project-row:hover {
+            background: #1a2430;
+        }
+
+        .project-index {
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .project-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .project-name small {
+            display: block;
+            font-weight: 300;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .project-status {
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            font-weight: 500;
+        }
+
+        .project-trl {
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-align: right;
+        }
+
+        /* Publicações */
+        .pubs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .pub-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 28px 32px;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.3s ease;
+        }
+
+        .pub-card:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .pub-journal {
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .pub-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .pub-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        /* Parcerias */
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .partner-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 6px;
+            padding: 28px 20px;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .partner-item:hover {
+            border-color: var(--accent-cyan);
+            color: var(--text-primary);
+            background: #1a2430;
+        }
+
+        .partner-item .sub {
+            display: block;
+            font-weight: 300;
+            font-size: 0.65rem;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            text-transform: none;
+        }
+
+        /* Depoimento */
+        .testimonial {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            padding: 64px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            font-size: 8rem;
+            line-height: 1;
+            color: var(--accent-cyan);
+            opacity: 0.1;
+            font-family: Georgia, serif;
+        }
+
+        .testimonial blockquote {
+            font-size: 1.15rem;
+            font-weight: 300;
+            line-height: 1.9;
+            color: var(--text-primary);
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto 28px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .testimonial-author strong {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .testimonial-author span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        .footer {
+            border-top: 1px solid var(--border-subtle);
+            padding: 40px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .footer span {
+            color: var(--accent-cyan);
+        }
+
+        /* Responsivo */
+        @media (max-width: 1024px) {
+            .areas-grid { grid-template-columns: repeat(2, 1fr); }
+            .partners-grid { grid-template-columns: repeat(2, 1fr); }
+            .project-row { grid-template-columns: 40px 1fr 120px; }
+            .project-trl { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .nav { padding: 16px 24px; }
+            .nav-coords { display: none; }
+            .hero { padding: 100px 24px 60px; }
+            .section { padding: 60px 24px; }
+            .areas-grid { grid-template-columns: 1fr; }
+            .pubs-grid { grid-template-columns: 1fr; }
+            .project-row { grid-template-columns: 1fr; gap: 8px; padding: 20px; }
+            .project-index { display: none; }
+            .project-status { font-size: 0.65rem; }
+            .testimonial { padding: 40px 24px; }
+            .testimonial blockquote { font-size: 1rem; }
+            .partners-grid { grid-template-columns: 1fr 1fr; }
+            .footer { flex-direction: column; gap: 12px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegação -->
+    <nav class="nav">
+        <div class="nav-brand">
+            <div class="mark">N</div>
+            LUMIS AEROSPACE
+        </div>
+        <div class="nav-coords">
+            23.5505° S / 46.6333° W<br>
+            SÃO JOSÉ DOS CAMPOS · BRASIL
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="https://images.openai.com/static-rsc-4/BMiGYf5w4LsQIMbV7Qz_2MySdK6FvCZ-Er2q-Y5B_hggULPQ9SU6A7TF1RZGQRvS5sEztZccbtoXNjOfkEl5pA1ezJszTKnvHZoWb9a63AhOiWFaK5AlUPVlBYqxlETi-9MpC0Urd22u8VSlNLPbFIPgz1AaKPdUCPqZS4hmuRU?purpose=inline" alt="Sistemas complexos e aeroespaciais">
+        </div>
+        <div class="hero-content">
+            <div class="hero-eyebrow">Sistemas Complexos · Soberania Territorial · Meio Ambiente</div>
+            <h1 class="hero-title">
+                Engenharia de<br>
+                <span>Resiliência Adaptativa</span>
+            </h1>
+            <p class="hero-sub">
+                Consultoria especializada na convergência entre sistemas autônomos, 
+                segurança ciberfísica, inteligência territorial e governança regulatória. 
+                Transformamos conhecimento científico em infraestrutura operacional 
+                para defesa, aviação e regeneração socioecológica.
+            </p>
+            <a href="#areas" class="hero-cta">
+                Explorar Capacidades
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Áreas de Atuação -->
+    <section class="section" id="areas">
+        <div class="section-header">
+            <div class="section-label">Domínios de Competência</div>
+            <h2 class="section-title">Áreas de Atuação</h2>
+            <p class="section-desc">
+                Integramos pesquisa científica de fronteira com engenharia de sistemas 
+                para resolver problemas em ambientes operacionais críticos.
+            </p>
+        </div>
+
+        <div class="areas-grid">
+            <!-- Área 1 -->
+            <div class="area-card">
+                <div class="area-card-img">
+                    <img src="https://images.openai.com/static-rsc-4/3Mz-2y0WWWdcFQvIh8qmbiMcomyBZ0ts_WNgPs-U2uNSGcTvsuUs1Mkr-yMrbHnCVqCpwfzaTqbJjBYFRYJfJsggFskCC7iTp2-4CrvsGKFKfCOtVD20_T6OI6m5OqlssReR5ABrfECM_kDo5dy7atRf1z4Hg05165a9xpyKM5U?purpose=inline" alt="Sistemas multiagentes autônomos">
+                </div>
+                <div class="area-card-body">
+                    <h3>Sistemas Multiagentes Autônomos</h3>
+                    <p>Coordenação distribuída de UAVs, replanejamento de missões BVLOS, contratos dinâmicos e resiliência diante de falhas em ambientes federados.</p>
+                    <span class="area-tag">MRCF · MIRF</span>
+                </div>
+            </div>
+
+            <!-- Área 2 -->
+            <div class="area-card">
+                <div class="area-card-img">
+                    <img src="https://images.openai.com/static-rsc-4/6k3f2A_OWs4b87PRZuipa7r-7tGJ8x6QKp-itsIrCw5yTeK-OCc8vkjw2GU7DAfY6SQGdH_kxFuxpOclXXIhuSxEEVrGc3ybdG6AaUZjIed9PcD4qeosGwbmhbVLVAj4WumC20tD0jWG6bKlcnmV_TFYNjYGxRpzWUPPeNFaXvA?purpose=inline" alt="Segurança ciberfísica">
+                </div>
+                <div class="area-card-body">
+                    <h3>Segurança Ciberfísica & STPA</h3>
+                    <p>Análise de perigos, redes de Petri, monitoramento de condições de segurança, detecção de estados degradados e recuperação autônoma certificável.</p>
+                    <span class="area-tag">MIRF · UTM-AirLab</span>
+                </div>
+            </div>
+
+            <!-- Área 3 -->
+            <div class="area-card">
+                <div class="area-card-img">
+                    <img src="https://images.openai.com/static-rsc-4/9GInP-wywJn-DwtYt0_n5YpVejMaLiwVZXkGqi-RToyfcF7W19f7Ba-8BRIduofTjpiUBFv3ybrfBcb7oYIi1R0XTsYLWfuiogNbOrh-4VAMSEhVDQiKJMAwLMyoA8Ar9fG413ob4uSS-961KaWqgvJT1kF_FMWwTUHxpO8dfXI?purpose=inline" alt="Aeronáutica e espaço aéreo">
+                </div>
+                <div class="area-card-body">
+                    <h3>Aeronáutica & Espaço Aéreo</h3>
+                    <p>UTM, integração de tráfego não tripulado, BVLOS, Detect and Avoid, simulação operacional e infraestrutura nacional de monitoramento para soberania.</p>
+                    <span class="area-tag">BR-UTM · PlaNAR</span>
+                </div>
+            </div>
+
+            <!-- Área 4 -->
+            <div class="area-card">
+                <div class="area-card-img">
+                    <img src="https://images.openai.com/static-rsc-4/_SCm-V1pcH5DiIGNZEWhiVaJF4TEiFb8SzGE4zrb31NHnRVYqXmpaLdNLKgBV77xc-4PosAMPzJBpclYibMLDXEVsLETyt30bDdm32hEKV703N9HNQYznnhjvo2eIrCIiBlQglnkulFKEDn7J18A2mTwyni2Nr68bdRgaDWvzQg?purpose=inline" alt="Ecologia computacional">
+                </div>
+                <div class="area-card-body">
+                    <h3>Ecologia Computacional & Território</h3>
+                    <p>Monitoramento de sistemas agroflorestais, modelagem de regeneração, sensoriamento remoto, indicadores de biodiversidade e inteligência territorial.</p>
+                    <span class="area-tag">CSA Guajuvira · 2dM</span>
+                </div>
+            </div>
+
+            <!-- Área 5 -->
+            <div class="area-card">
+                <div class="area-card-img">
+                    <img src="https://images.openai.com/static-rsc-4/YW1LW-q7EgiE86u3q4YENF0dUBMHPjblX0z42zWno3N3zI_zMmM1pVudEVDkPfaEHOrgMBihJgwgA6YKxeu8FAbesLFA1RFetbJCyVGnIslGWXfV5QJ1eA_RuP_NTY2cOyiNso0kw2tk5Dnhr_lpvBdQV9OWN3Pyd8cp3QFQN_0?purpose=inline" alt="IA científica">
+                </div>
+                <div class="area-card-body">
+                    <h3>IA Científica & Engenharia do Conhecimento</h3>
+                    <p>RAG com grafos de conhecimento, ontologias científicas, extração de requisitos, geração e validação de artefatos técnicos verificáveis.</p>
+                    <span class="area-tag">Research Knowledge Factory</span>
+                </div>
+            </div>
+
+            <!-- Área 6 -->
+            <div class="area-card">
+                <div class="area-card-img">
+                    <img src="https://images.openai.com/static-rsc-4/zk_IG0JD46x9Q49jcsG7zDiX_zegqcOtYcwDcik-_wCEFwJqRXUdhiBYaHj54RExTAgmd8Zqp4LlyGvAVjEeVfs_7dsaL6lQxM5K6tipgsohF5uyIlrnYYShMFC1oC70AfkHyrFCuIJPjbdOX9VXIYICNIwHWFMlwkmgQV4QrPw?purpose=inline" alt="Indústria e segurança do trabalho">
+                </div>
+                <div class="area-card-body">
+                    <h3>Indústria & Segurança Operacional</h3>
+                    <p>IA aplicada à análise documental, monitoramento de conformidade, predição de necessidades de treinamento e automação de segurança do trabalho.</p>
+                    <span class="area-tag">Bioprev · K-Factory</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projetos Realizados -->
+    <section class="section" style="background: var(--bg-surface); border-radius: 12px; padding: 80px 48px; max-width: 1400px; margin: 0 auto 100px;">
+        <div class="section-header">
+            <div class="section-label">Portfólio Verificado</div>
+            <h2 class="section-title">Projetos & Artefatos</h2>
+            <p class="section-desc">
+                Iniciativas que conectam doutorado de fronteira, contratos institucionais e desenvolvimento tecnológico aplicado.
+            </p>
+        </div>
+
+        <div class="projects-list">
+            <div class="project-row">
+                <div class="project-index">01</div>
+                <div class="project-name">
+                    MIRF — Methodology for Intelligent Resilient Fault-Tolerant Systems
+                    <small>Supervisão de segurança e saúde sistêmica em UTM federado · P0 implementado</small>
+                </div>
+                <div class="project-status">Doutorado / Framework</div>
+                <div class="project-trl">TRL 4–5</div>
+            </div>
+            <div class="project-row">
+                <div class="project-index">02</div>
+                <div class="project-name">
+                    MRCF — Mission Replanning and Control Framework
+                    <small>Replanejamento BVLOS, Behavior Trees, Dynamic Defense, experimentos com DAA e PPO</small>
+                </div>
+                <div class="project-status">Implementado & Testado</div>
+                <div class="project-trl">TRL 6</div>
+            </div>
+            <div class="project-row">
+                <div class="project-index">03</div>
+                <div class="project-name">
+                    USS-SIM / SC-249 — Simulador de Serviços UTM
+                    <small>Federação de USS, desconflito 4D, PyBullet, processamento KML e cenários espaciais</small>
+                </div>
+                <div class="project-status">Protótipo Testado</div>
+                <div class="project-trl">TRL 5</div>
+            </div>
+            <div class="project-row">
+                <div class="project-index">04</div>
+                <div class="project-name">
+                    DAA / PPO — Detect and Avoid com Reinforcement Learning
+                    <small>Prevenção autônoma de conflitos, avaliação de trajetórias e integração com MRCF</small>
+                </div>
+                <div class="project-status">Testado em Simulação</div>
+                <div class="project-trl">TRL 4</div>
+            </div>
+            <div class="project-row">
+                <div class="project-index">05</div>
+                <div class="project-name">
+                    TED SAC–ITA / BR-UTM
+                    <small>Revisão crítica de requisitos UTM, arquitetura DSS/USS/SDSP, segurança e interoperabilidade</small>
+                </div>
+                <div class="project-status">Em Execução</div>
+                <div class="project-trl">Institucional</div>
+            </div>
+            <div class="project-row">
+                <div class="project-index">06</div>
+                <div class="project-name">
+                    Aviação do Amanhã — MCTI / ITA / DCTA
+                    <small>Modelagem e simulação de operações UTM, sistemas multiagentes e autonomia</small>
+                </div>
+                <div class="project-status">Pesquisa Aplicada</div>
+                <div class="project-trl">Em Execução</div>
+            </div>
+            <div class="project-row">
+                <div class="project-index">07</div>
+                <div class="project-name">
+                    ASA / VERITAS / WebStation
+                    <small>Simulação aeroespacial, processamento espectral embarcado, consciência situacional</small>
+                </div>
+                <div class="project-status">Frentes Tecnológicas Ativas</div>
+                <div class="project-trl">DCTA/FAB</div>
+            </div>
+            <div class="project-row">
+                <div class="project-index">08</div>
+                <div class="project-name">
+                    ICEA / DECEA — Safety & Cybersecurity
+                    <small>STPA, UCAs, ICA 100-40 / 100-48, fundamentação da supervisão MIRF</small>
+                </div>
+                <div class="project-status">Em Desenvolvimento</div>
+                <div class="project-trl">Regulatório</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Artigos & Publicações -->
+    <section class="section" id="publicacoes">
+        <div class="section-header">
+            <div class="section-label">Produção Científica</div>
+            <h2 class="section-title">Artigos & Publicações</h2>
+            <p class="section-desc">
+                Pesquisa consolidada com revisão sistemática, taxonomia e framework de governança regulatória.
+            </p>
+        </div>
+
+        <div class="pubs-grid">
+            <div class="pub-card">
+                <div class="pub-journal">Journal of Air Transport Management (JATM)</div>
+                <div class="pub-title">Fault Tolerance and Regulatory Governance in Complex UTM Environments: A Systematic Review and Framework Proposal</div>
+                <div class="pub-meta">Em preparação · 236 referências · Taxonomia USCP (6 dimensões, 9 grupos temáticos)</div>
+            </div>
+            <div class="pub-card">
+                <div class="pub-journal">Preprints.org</div>
+                <div class="pub-title">Empirical Evaluation of Federated Unmanned Traffic Management Architectures: Performance Analysis Under High-Density Operations</div>
+                <div class="pub-meta">v1 · Avaliação empírica de arquiteturas UTM federadas</div>
+            </div>
+            <div class="pub-card">
+                <div class="pub-journal">Apêndice Metodológico</div>
+                <div class="pub-title">STPA Aplicado à Supervisão de Segurança em Sistemas UTM Federados: Unsafe Control Actions e Cenários de Degradação</div>
+                <div class="pub-meta">Documento técnico · Base para qualificação e tese de doutorado</div>
+            </div>
+            <div class="pub-card">
+                <div class="pub-journal">Linha de Pesquisa Consolidada</div>
+                <div class="pub-title">Modelos de Segurança e Arquitetura para Resiliência em Ambientes Operacionais Críticos</div>
+                <div class="pub-meta">Experimentação em ambiente simulado · Validação reprodutível</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Parcerias -->
+    <section class="section" id="parcerias">
+        <div class="section-header">
+            <div class="section-label">Ecossistema Institucional</div>
+            <h2 class="section-title">Parcerias & Colaborações</h2>
+        </div>
+
+        <div class="partners-grid">
+            <div class="partner-item">
+                ITA
+                <span class="sub">Instituto Tecnológico de Aeronáutica</span>
+            </div>
+            <div class="partner-item">
+                DECEA / ICEA
+                <span class="sub">Controle do Espaço Aéreo</span>
+            </div>
+            <div class="partner-item">
+                DCTA / FAB
+                <span class="sub">Ciência e Tecnologia Aeroespacial</span>
+            </div>
+            <div class="partner-item">
+                MCTI
+                <span class="sub">Aviação do Amanhã</span>
+            </div>
+            <div class="partner-item">
+                Fatec SJC
+                <span class="sub">Pesquisa & Formação</span>
+            </div>
+            <div class="partner-item">
+                IME
+                <span class="sub">Cooperação Científica</span>
+            </div>
+            <div class="partner-item">
+                FAPESP
+                <span class="sub">SAGe / Modalidades</span>
+            </div>
+            <div class="partner-item">
+                BR-UTM
+                <span class="sub">Ecossistema Nacional</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Depoimento -->
+    <section class="section">
+        <div class="testimonial">
+            <blockquote>
+                A segurança de sistemas complexos não deve ser avaliada exclusivamente por indicadores de desempenho, 
+                mas pela capacidade do sistema de reconhecer, interpretar e reagir às mudanças em suas próprias 
+                condições operacionais.
+            </blockquote>
+            <div class="testimonial-author">
+                <strong>Hipótese Científica Central</strong>
+                <span>Programa de Pesquisa em Segurança Adaptativa · MIRF / MRCF / UTM-AirLab</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div>LUMIS AEROSPACE · Consultoria em Sistemas Complexos</div>
+        <div>São José dos Campos · <span>Brasil</span> · 2026</div>
+    </footer>
+
+</body>
+</html>
